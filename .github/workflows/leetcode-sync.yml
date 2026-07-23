@@ -25,7 +25,7 @@ jobs:
           LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
         run: |
           mkdir -p solutions
-          leetcode-export --cookie "$LEETCODE_SESSION" --output-dir solutions/
+          leetcode-export --cookies "$LEETCODE_SESSION" --folder solutions/ --only-accepted --only-last-submission
 
       - name: Commit and push
         run: |
