@@ -1,18 +1,36 @@
-name: Sync LeetCode
+name: Sync LeetCode Solutions
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 jobs:
-  build:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Sync
-        uses: joshclement0927/leetcode-sync@master
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
-          destination-folder: leetcode
-          verbose: true
+          python-version: '3.11'
+
+      - name: Install leetcode-export
+        run: pip install leetcode-export
+
+      - name: Download LeetCode solutions
+        env:
+          LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
+        run: |
+          mkdir -p solutions
+          leetcode-export --cookie "$LEETCODE_SESSION" --output-dir solutions/
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add solutions/
+          git diff --cached --quiet || git commit -m "Sync LeetCode solutions"
+          git push
