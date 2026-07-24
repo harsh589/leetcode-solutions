@@ -13,7 +13,7 @@ class Solution {
             if (getSum(nums, mid) <= threshold) {
                 high = mid - 1;   // chhota divisor try karo
             } else {
-                low = mid + 1;    // bada divisor chahiye (sum kam karna hai)
+                low = mid + 1;    // bada divisor chahiye
             }
         }
         return low;
