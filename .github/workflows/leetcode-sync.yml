@@ -32,8 +32,8 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "harsh589"
+          git config user.email "harshyadav1457@gmail.com"
           git add solutions/
           git diff --cached --quiet || git commit -m "Sync LeetCode solutions"
           git pull --rebase origin main
